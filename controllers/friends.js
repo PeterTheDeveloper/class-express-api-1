@@ -35,8 +35,38 @@ const addFriend = (req, res) => {
     })
 }
 
+const deleteFriend = (req, res) => {
+      const { first_name, last_name, age} = req.body;
+    
+    const queryText = `DELETE FROM friends WHERE first_name = $1;`;
+    db.query(queryText, [first_name, last_name, age])
+        .then(data => {
+            console.log(data);
+            res.status(204).send('Friend Deleted!')
+        })
+        .catch(err => {
+            res.status(500).json({error: '500 Internet Server. Resource not created!'})
+        })
+};
+
+const updateFriend = (req, res) => {
+   const { first_name, last_name, age} = req.body;
+    
+    const queryText = `UPDATE friends SET ( first_name, last_name, age}) WHERE first_name $1;`;
+    db.query(queryText, [first_name, last_name, age])
+        .then(data => {
+            console.log(data);
+            res.status(204).send('Friend Updated!')
+        })
+        .catch(err => {
+            res.status(500).json({error: '500 Internet Server. Resource not created!'})
+        })
+}
+
 module.exports = {
   getAllFriends,
   getFriendById,
   addFriend,
+  deleteFriend,
+  updateFriend
 };
